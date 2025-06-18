@@ -39,6 +39,14 @@ This document outlines the implementation approach, technical decisions, and tra
 - **Metadata**: Includes revision number, change type, and timestamp
 - **Transactions**: Uses database transactions for data consistency
 
+### Task 5: JWT Authentication
+- **Authentication**: JWT token required for all endpoints (except /, /health, /auth/token)
+- **Headers**: X-Client-ID header required for all authenticated requests
+- **Token Generation**: POST /auth/token endpoint for testing purposes
+- **User Tracking**: Automatic population of created_by/updated_by fields
+- **Security**: Bearer token validation with configurable JWT secret
+- **Context Injection**: User email and client ID available in request context
+
 ### Architecture Decisions
 - Maintained the existing Koa.js + Sequelize structure
 - Used consistent error response format from existing responses.js

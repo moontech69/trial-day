@@ -21,6 +21,15 @@ This document outlines the implementation approach, technical decisions, and tra
 - **Response**: Includes issues array and pagination metadata
 - **Validation**: Validates pagination parameters
 
+### Task 3: Update Issue Endpoint
+- **Endpoint**: `PUT /issues/:id`
+- **Implementation**: Updates existing issue with partial or full data
+- **Partial Updates**: Supports updating only title, only description, or both
+- **Validation**: Validates issue ID and ensures non-empty values
+- **Error Handling**: Returns 404 if issue not found, 400 for validation errors
+- **Response**: Returns updated issue data
+- **Data Integrity**: Trims whitespace and validates required fields
+
 ### Architecture Decisions
 - Maintained the existing Koa.js + Sequelize structure
 - Used consistent error response format from existing responses.js
@@ -33,6 +42,8 @@ This document outlines the implementation approach, technical decisions, and tra
 3. **Database**: Maintained existing Sequelize setup for consistency
 4. **Pagination**: Implemented server-side pagination with reasonable defaults and limits
 5. **Ordering**: Default ordering by creation date, could be extended to support custom sorting
+6. **Update Strategy**: Used PUT for full/partial updates, could also implement PATCH for explicit partial updates
+7. **Concurrency**: Basic update without optimistic locking, could be enhanced for high-concurrency scenarios
 
 ## Testing Notes
 - Environment setup requires Docker for MySQL database

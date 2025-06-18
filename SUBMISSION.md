@@ -30,6 +30,15 @@ This document outlines the implementation approach, technical decisions, and tra
 - **Response**: Returns updated issue data
 - **Data Integrity**: Trims whitespace and validates required fields
 
+### Task 4: Issue Revisions Endpoint
+- **Endpoint**: `GET /issues/:id/revisions`
+- **Implementation**: Returns all revisions of a specific issue
+- **Revision Tracking**: Automatically creates revisions on create/update operations
+- **Data Model**: Separate IssueRevision model with foreign key to Issue
+- **Ordering**: Revisions returned in chronological order (oldest first)
+- **Metadata**: Includes revision number, change type, and timestamp
+- **Transactions**: Uses database transactions for data consistency
+
 ### Architecture Decisions
 - Maintained the existing Koa.js + Sequelize structure
 - Used consistent error response format from existing responses.js

@@ -30,6 +30,15 @@ This document outlines the implementation approach, technical decisions, and tra
 - **Response**: Returns updated issue data
 - **Data Integrity**: Trims whitespace and validates required fields
 
+### Task 4: Issue Revisions Endpoint
+- **Endpoint**: `GET /issues/:id/revisions`
+- **Implementation**: Returns all revisions of a specific issue
+- **Revision Tracking**: Automatically creates revisions on create/update operations
+- **Data Model**: Separate IssueRevision model with foreign key to Issue
+- **Ordering**: Revisions returned in chronological order (oldest first)
+- **Metadata**: Includes revision number, change type, and timestamp
+- **Transactions**: Uses database transactions for data consistency
+
 ### Architecture Decisions
 - Maintained the existing Koa.js + Sequelize structure
 - Used consistent error response format from existing responses.js
@@ -44,9 +53,10 @@ This document outlines the implementation approach, technical decisions, and tra
 5. **Ordering**: Default ordering by creation date, could be extended to support custom sorting
 6. **Update Strategy**: Used PUT for full/partial updates, could also implement PATCH for explicit partial updates
 7. **Concurrency**: Basic update without optimistic locking, could be enhanced for high-concurrency scenarios
+8. **Revision Storage**: Full revision storage (stores complete state), could be optimized with delta storage for large datasets
+9. **Revision Metadata**: Basic metadata tracking, could be extended with user context and change descriptions
 
 ## Next Steps
-- Task 4: Implement issue revisions tracking
 - Task 5: Add JWT authentication
 - Task 6: Implement revision comparison
 

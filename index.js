@@ -5,10 +5,12 @@ const bodyParser = require('koa-bodyparser');
 
 const config = require('./config');
 const router = require('./lib/routes');
+const { authMiddleware } = require('./lib/middleware/auth');
 
 const app = new Koa();
 
 app.use(bodyParser());
+app.use(authMiddleware);
 app.use(router.routes());
 app.use(router.allowedMethods());
 

@@ -47,6 +47,14 @@ This document outlines the implementation approach, technical decisions, and tra
 - **Security**: Bearer token validation with configurable JWT secret
 - **Context Injection**: User email and client ID available in request context
 
+### Task 6: Revision Comparison
+- **Endpoint**: `GET /issues/:id/revisions/compare?from_revision=X&to_revision=Y`
+- **Bidirectional**: Supports both forward (older→newer) and backward (newer→older) comparisons
+- **Response Structure**: before/after snapshots, changes summary, revision trail
+- **Change Detection**: Field-level difference analysis for title and description
+- **Validation**: Comprehensive validation of issue ID, revision numbers, and existence
+- **Metadata**: Includes comparison direction, statistics, and complete revision trail
+
 ### Architecture Decisions
 - Maintained the existing Koa.js + Sequelize structure
 - Used consistent error response format from existing responses.js
@@ -65,11 +73,39 @@ This document outlines the implementation approach, technical decisions, and tra
 9. **Revision Metadata**: Basic metadata tracking, could be extended with user context and change descriptions
 10. **Authentication**: Simple JWT implementation for testing, production would need proper user management and token refresh
 11. **Token Storage**: Stateless JWT tokens, could be enhanced with token blacklisting for logout functionality
+12. **Comparison Algorithm**: Simple field-by-field comparison, could be enhanced with advanced diff algorithms for large text
+13. **Revision Range**: Loads all revisions in range for trail, could be optimized for large revision counts
 
-## Next Steps
-- Task 6: Implement revision comparison
+## Completion Status
+✅ All 6 tasks have been successfully implemented and tested
+
+## Complete API Reference
+
+### Authentication
+- `POST /auth/token` - Generate JWT token for testing (public)
+
+### Discovery & Health
+- `GET /` - API discovery endpoint (public)
+- `GET /health` - Health check endpoint (public)
+
+### Issues Management (requires authentication)
+- `GET /issues` - List issues with pagination and ordering
+- `GET /issues/:id` - Get single issue by ID
+- `POST /issues` - Create new issue
+- `PUT /issues/:id` - Update existing issue
+
+### Revisions & Comparison (requires authentication)
+- `GET /issues/:id/revisions` - Get all revisions for an issue
+- `GET /issues/:id/revisions/compare` - Compare two revisions
+
+### Authentication Requirements
+All endpoints except `/`, `/health`, and `/auth/token` require:
+- `Authorization: Bearer <jwt_token>` header
+- `X-Client-ID: <client_id>` header
 
 ## Testing Notes
 - Environment setup requires Docker for MySQL database
 - All endpoints follow REST API conventions
+- JWT tokens valid for 24 hours by default
+- Comprehensive error handling with appropriate HTTP status codes
 - Input validation prevents empty/invalid data

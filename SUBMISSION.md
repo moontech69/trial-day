@@ -12,6 +12,15 @@ This document outlines the implementation approach, technical decisions, and tra
 - **Response**: Returns 201 status with created issue data
 - **Validation**: Trims whitespace and checks for empty/null values
 
+### Task 2: List Issues Endpoint
+- **Endpoint**: `GET /issues`
+- **Implementation**: Returns paginated list of all issues
+- **Pagination**: Supports `page` and `limit` query parameters
+- **Default Values**: page=1, limit=10 (max limit=100)
+- **Ordering**: Issues ordered by creation date (most recent first)
+- **Response**: Includes issues array and pagination metadata
+- **Validation**: Validates pagination parameters
+
 ### Architecture Decisions
 - Maintained the existing Koa.js + Sequelize structure
 - Used consistent error response format from existing responses.js
@@ -22,9 +31,10 @@ This document outlines the implementation approach, technical decisions, and tra
 1. **Validation**: Implemented basic validation for now, could be extended with more sophisticated validation libraries like Joi
 2. **Error Handling**: Used simple try-catch blocks, could be enhanced with custom error classes
 3. **Database**: Maintained existing Sequelize setup for consistency
+4. **Pagination**: Implemented server-side pagination with reasonable defaults and limits
+5. **Ordering**: Default ordering by creation date, could be extended to support custom sorting
 
 ## Next Steps
-- Task 2: Implement list all issues endpoint
 - Task 3: Implement update issue endpoint
 - Task 4: Implement issue revisions tracking
 - Task 5: Add JWT authentication
